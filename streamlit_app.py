@@ -99,7 +99,7 @@ def predict(model, img):
             "Disease": class_names[idx],
             "Confidence": float(predictions[idx])
         })
-      return results  
+       return results  
      # -------------------------------------------------
 # Main Application
 # -------------------------------------------------
