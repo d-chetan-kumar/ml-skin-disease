@@ -1009,7 +1009,13 @@ def main():
                     size_str = f"{size_bytes / 1024:.1f} KB"
                 else:
                     size_str = f"{size_bytes / (1024 * 1024):.1f} MB"
-                fmt_str = getattr(original_img, "format", "JPEG").upper()
+                
+                # Retrieve and normalize the file format safely
+                fmt_str = "JPEG"
+                if uploaded_file and hasattr(uploaded_file, "name") and uploaded_file.name:
+                    parts = uploaded_file.name.split(".")
+                    if len(parts) > 1:
+                        fmt_str = parts[-1].upper()
                 
                 # Render metadata grid
                 st.markdown(
