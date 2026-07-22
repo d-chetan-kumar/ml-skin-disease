@@ -8,6 +8,7 @@ the disease category.
 """
 
 import os
+import textwrap
 # 1. Import required dependencies
 import streamlit as st
 import numpy as np
@@ -195,7 +196,7 @@ DISEASE_INFO = {
         "risk": "Low"
     },
     "Systemic Disease": {
-        "description": "Skin signs and symptoms that serve as clinical clues to internal organ pathology, endocrine abnormalities, or systemic malignancies.",
+        "description": "Skin manifestations of underlying internal illnesses, such as diabetes, thyroid disorders, or internal inflammatory conditions.",
         "symptoms": "Velvety hyperpigmented patches in skin folds (Acanthosis Nigricans), pretibial scaling, localized deposition, purpura, or yellowish nodules (xanthomas).",
         "causes": "Endocrine disorders (Diabetes, thyroid dysfunction), metabolic disease, internal organ failure, or systemic paraneoplastic syndromes.",
         "consult": "For comprehensive diagnostic evaluation including blood panels, imaging, and specialist consultations to identify the primary internal disease.",
@@ -203,7 +204,7 @@ DISEASE_INFO = {
         "risk": "Medium"
     },
     "Tinea Ringworm Candidiasis and other Fungal Infections": {
-        "description": "Superficial cutaneous fungal infections of keratinized tissues (skin, hair, nails) caused by dermatophyte fungi or Candida yeasts.",
+        "description": "Superficial fungal infections affecting the skin, scalp, or groin, leading to ring-like red rashes or itchy yeast infections.",
         "symptoms": "Annular (ring-like) red scaly patches with active borders and central clearing (Ringworm/Tinea Corporis), severe itching, or red macerated plaques in skin folds.",
         "causes": "Infection by dermatophytes or Candida albicans overgrowth in warm, moist environments.",
         "consult": "If the infection fails to resolve with over-the-counter antifungal creams, spreads extensively, or involves the scalp or face.",
@@ -219,7 +220,7 @@ DISEASE_INFO = {
         "risk": "Medium"
     },
     "Vascular Tumors": {
-        "description": "Benign or malignant proliferation of endothelial cells forming blood or lymphatic vessels, ranging from infantile hemangiomas to Kaposi's sarcoma.",
+        "description": "Benign or malignant growths composed of blood vessels or lymphatic vessels, such as hemangiomas or Kaposi's sarcoma.",
         "symptoms": "Cherry-red papules (Cherry Hemangiomas), expanding purple or blue patches/nodules (Kaposi's Sarcoma), or rubbery bright red lesions.",
         "causes": "Endothelial cell growth factor abnormalities, genetic vascular anomalies, or viral infections (e.g., HHV-8 in Kaposi's Sarcoma).",
         "consult": "To evaluate any new, growing, or ulcerating vascular lesion and rule out malignant vessel tumors.",
@@ -823,7 +824,7 @@ def apply_custom_styles():
     }
     </style>
     """
-    st.markdown(custom_css, unsafe_allow_html=True)
+    st.markdown(textwrap.dedent(custom_css), unsafe_allow_html=True)
 
 
 # 19. Modular function: main()
@@ -837,13 +838,13 @@ def main():
     
     # 5. Sidebar Configuration
     st.sidebar.markdown(
-        """
+        textwrap.dedent("""
         <div style='text-align: center; margin-bottom: 25px; padding-top: 15px;'>
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-alert" style="margin-bottom: 12px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <h2 style='margin: 0px 0 5px 0; color: #FAFAFA; font-size: 20px; font-weight: 700; letter-spacing: -0.02em;'>Engine Control</h2>
             <p style='color: #A1A1AA; font-size: 13px; margin: 0;'>Clinical Screening Pipeline</p>
         </div>
-        """, 
+        """), 
         unsafe_allow_html=True
     )
     
@@ -857,13 +858,13 @@ def main():
         
     if model_loaded:
         st.sidebar.markdown(
-            """
+            textwrap.dedent("""
             <div style='margin-bottom: 25px; text-align: center;'>
                 <div class="status-indicator">
                     <span class="status-dot"></span> Pipeline Core Calibrated
                 </div>
             </div>
-            """, 
+            """), 
             unsafe_allow_html=True
         )
     else:
@@ -874,7 +875,7 @@ def main():
     
     # Custom Sidebar List with Cards
     st.sidebar.markdown(
-        f"""
+        textwrap.dedent(f"""
         <div class="sidebar-list">
             <div class="sidebar-item-card">
                 <span class="sidebar-lbl">
@@ -892,7 +893,7 @@ def main():
             </div>
             <div class="sidebar-item-card">
                 <span class="sidebar-lbl">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4c0-.5.2-1 .6-1.4C5 2.2 5.5 2 6 2h8.5L20 7.5V20c0 .5-.2 1-.6 1.4-.4.4-.9.6-1.4.6H6c-.5 0-1-.2-1.4-.6C4.2 21 4 20.5 4 20v2z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4c0-.5.2-1 .6-1.4C5 2.2(5.5 2 6 2h8.5L20 7.5V20c0 .5-.2 1-.6 1.4-.4.4-.9.6-1.4.6H6c-.5 0-1-.2-1.4-.6C4.2 21 4 20.5 4 20v2z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
                     Dataset
                 </span>
                 <span class="sidebar-val">DermNet</span>
@@ -926,13 +927,13 @@ def main():
                 <span class="sidebar-val">~148ms</span>
             </div>
         </div>
-        """,
+        """),
         unsafe_allow_html=True
     )
     
     # 4. Design a professional UI (Top Navigation Bar)
     st.markdown(
-        """
+        textwrap.dedent("""
         <div class="top-nav">
             <div class="nav-brand">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-logo-icon"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
@@ -950,18 +951,18 @@ def main():
                 </span>
             </div>
         </div>
-        """,
+        """),
         unsafe_allow_html=True
     )
     
     # Hero Section
     st.markdown(
-        """
+        textwrap.dedent("""
         <div class="hero-wrapper">
             <h1 class="hero-title-gradient">AI Skin Disease Detection</h1>
             <p class="hero-desc">Upload a high-resolution dermoscopic image and receive deep learning-powered visual feature extraction and classification analysis within seconds.</p>
         </div>
-        """,
+        """),
         unsafe_allow_html=True
     )
     
@@ -973,7 +974,7 @@ def main():
         
         # Custom upload dropzone HTML simulation
         st.markdown(
-            """
+            textwrap.dedent("""
             <div class="uploader-dropzone">
                 <div class="uploader-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -981,7 +982,7 @@ def main():
                 <div class="uploader-title">Drag & Drop Image Here</div>
                 <div class="uploader-desc">Supports JPG, JPEG, or PNG (Max 10MB)</div>
             </div>
-            """,
+            """),
             unsafe_allow_html=True
         )
         
@@ -1019,7 +1020,7 @@ def main():
                 
                 # Render metadata grid
                 st.markdown(
-                    f"""
+                    textwrap.dedent(f"""
                     <div class="metadata-grid">
                         <div class="metadata-item">
                             <div class="metadata-label">Resolution</div>
@@ -1034,7 +1035,7 @@ def main():
                             <div class="metadata-value">{fmt_str}</div>
                         </div>
                     </div>
-                    """, 
+                    """), 
                     unsafe_allow_html=True
                 )
                 
@@ -1057,7 +1058,7 @@ def main():
         if uploaded_file is None:
             # Default state when no image is uploaded
             st.markdown(
-                """
+                textwrap.dedent("""
                 <div class="shadcn-card" style="text-align: center; padding: 50px 24px; border-style: dashed;">
                     <div style="color: #A1A1AA; margin-bottom: 16px; display: flex; justify-content: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 4 4 6-6"/></svg>
@@ -1067,13 +1068,13 @@ def main():
                         Please upload a dermoscopic image on the left panel to execute normalization and classification.
                     </p>
                 </div>
-                """,
+                """),
                 unsafe_allow_html=True
             )
         elif not predict_button:
             # Image loaded but prediction not triggered yet
             st.markdown(
-                """
+                textwrap.dedent("""
                 <div class="shadcn-card" style="text-align: center; padding: 50px 24px;">
                     <div style="color: #3B82F6; margin-bottom: 16px; display: flex; justify-content: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -1083,7 +1084,7 @@ def main():
                         Image preprocessing complete. Click the <strong>Run Diagnostic Inference</strong> action button under the image preview to begin neural inference.
                     </p>
                 </div>
-                """,
+                """),
                 unsafe_allow_html=True
             )
         else:
@@ -1183,7 +1184,7 @@ def main():
                         </div>
                     </div>
                     """
-                    st.markdown(primary_card_html, unsafe_allow_html=True)
+                    st.markdown(textwrap.dedent(primary_card_html), unsafe_allow_html=True)
                     
                     # Construct progress bars HTML for Top 5
                     progress_html = ""
@@ -1219,7 +1220,7 @@ def main():
                         </div>
                     </div>
                     """
-                    st.markdown(secondary_card_html, unsafe_allow_html=True)
+                    st.markdown(textwrap.dedent(secondary_card_html), unsafe_allow_html=True)
                     
                     # Warning Disclaimer Card
                     disclaimer_html = """
@@ -1232,7 +1233,7 @@ def main():
                         </p>
                     </div>
                     """
-                    st.markdown(disclaimer_html, unsafe_allow_html=True)
+                    st.markdown(textwrap.dedent(disclaimer_html), unsafe_allow_html=True)
                     
                 except Exception as e:
                     st.error(f"Error during diagnostic prediction: {e}")
@@ -1253,13 +1254,13 @@ def main():
         
     # FOOTER
     st.markdown(
-        """
+        textwrap.dedent("""
         <div class="footer-text">
             <hr style="border-top: 1px solid rgba(255,255,255,0.06); margin-bottom: 20px;">
             <p style="font-weight: 600; color: #FAFAFA;">AI Skin Disease Diagnostics Pipeline</p>
             <p style="font-size: 12px; color: #A1A1AA;">Built with TensorFlow, Keras, Pillow and Streamlit. Inspired by shadcn/ui.</p>
         </div>
-        """,
+        """),
         unsafe_allow_html=True
     )
 
