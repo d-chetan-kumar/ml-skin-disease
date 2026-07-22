@@ -11,9 +11,10 @@ from PIL import Image, UnidentifiedImageError
 from tensorflow.keras.models import load_model as keras_load_model
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
-# -------------------------------
+# -------------------------------------------------
 # Class Names (Same order as training)
-# -------------------------------
+# -------------------------------------------------
+
 class_names = [
     "Acne and Rosacea Photos",
     "Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions",
@@ -48,54 +49,60 @@ st.set_page_config(
     layout="wide"
 )
 
-# -------------------------------
+# -------------------------------------------------
 # Load Model
-# -------------------------------
+# -------------------------------------------------
+
 @st.cache_resource
 def load_model():
+
     if not os.path.exists(MODEL_PATH):
         raise FileNotFoundError(f"Model not found: {MODEL_PATH}")
 
     return keras_load_model(MODEL_PATH)
 
-# -------------------------------
+
+# -------------------------------------------------
 # Image Preprocessing
-# -------------------------------
+# -------------------------------------------------
+
 def preprocess_image(uploaded_file):
 
     image = Image.open(uploaded_file).convert("RGB")
 
-    resized = image.resize((224, 224))
+    image = image.resize((224, 224))
 
-    img = np.array(resized)
+    image_array = np.array(image)
 
-    img = preprocess_input(img)
+    image_array = preprocess_input(image_array)
 
-    img = np.expand_dims(img, axis=0)
+    image_array = np.expand_dims(image_array, axis=0)
 
-    return img, image
+    return image_array, image
 
-# -------------------------------
+
+# -------------------------------------------------
 # Prediction
-# -------------------------------
+# -------------------------------------------------
+
 def predict(model, img):
 
     predictions = model.predict(img, verbose=0)[0]
 
-    # Get indices of top 3 predictions
     top3_indices = np.argsort(predictions)[-3:][::-1]
 
     results = []
 
     for idx in top3_indices:
-        results.append({
-            "disease": class_names[idx],
-            "confidence": float(predictions[idx])
-        })
 
-    return results
+        results.append({
+            "Disease": class_names[idx],
+            "Confidence": float(predictions[idx])
+        })
+     # -------------------------------------------------
 # Main Application
-# -------------------------------
+# -------------------------------------------------
+
 def main():
 
     # Sidebar
@@ -106,7 +113,7 @@ def main():
     st.sidebar.markdown("**Dataset:** DermNet Dataset")
     st.sidebar.markdown("**Developer:** Student Project")
 
-    # Header
+    # Title
     st.title("🩺 AI-Based Skin Disease Detection System")
     st.subheader(
         "Upload a skin disease image and let the trained MobileNetV2 model predict the disease category."
@@ -117,6 +124,7 @@ def main():
     # Load Model
     try:
         model = load_model()
+
     except Exception as e:
         st.error(f"Unable to load model.\n\n{e}")
         st.stop()
@@ -137,9 +145,10 @@ def main():
 
             img_batch, original_image = preprocess_image(uploaded_file)
 
-            col1, col2 = st.columns([1, 1.3])
+            col1, col2 = st.columns([1, 1.4])
 
             with col1:
+
                 st.image(
                     original_image,
                     caption="Uploaded Image",
@@ -156,49 +165,61 @@ def main():
                     use_container_width=True
                 ):
 
-                    with st.spinner("Analyzing image..."):
+                    with st.spinner("Analyzing Image..."):
 
-                       results = predict(model, img_batch)
+                        results = predict(model, img_batch)
 
-st.success("Prediction Completed Successfully!")
+                    st.success("Prediction Completed Successfully!")
 
-st.markdown("## 🏆 Top 3 Predicted Diseases")
+                    st.markdown("## 🏆 Top 3 Predicted Diseases")
 
-table_data = []
+                    table = []
 
-medals = ["🥇", "🥈", "🥉"]
+                    medals = ["🥇", "🥈", "🥉"]
 
-for i, result in enumerate(results):
+                    for i, result in enumerate(results):
 
-    table_data.append({
-        "Rank": medals[i],
-        "Disease": result["disease"],
-        "Confidence": f"{result['confidence']*100:.2f}%"
-    })
+                        table.append({
+                            "Rank": medals[i],
+                            "Disease": result["Disease"],
+                            "Confidence": f"{result['Confidence']*100:.2f}%"
+                        })
 
-st.table(table_data)
+                    st.table(table)
 
-top_confidence = results[0]["confidence"]
+                    st.markdown("### 📊 Confidence of Best Prediction")
 
-if top_confidence >= 0.90:
-    st.success(
-        "The model is highly confident about the top prediction."
-    )
+                    top_confidence = results[0]["Confidence"]
 
-elif top_confidence >= 0.70:
-    st.info(
-        "The model is reasonably confident about the top prediction."
-    )
+                    st.progress(top_confidence)
 
-else:
-    st.warning(
-        "The confidence is relatively low. Consider using another image with better lighting and clarity."
-    )
+                    st.metric(
+                        label="Model Confidence",
+                        value=f"{top_confidence*100:.2f}%"
+                    )
+
+                    if top_confidence >= 0.90:
+
+                        st.success(
+                            "The model is highly confident about the prediction."
+                        )
+
+                    elif top_confidence >= 0.70:
+
+                        st.info(
+                            "The model is reasonably confident about the prediction."
+                        )
+
+                    else:
+
+                        st.warning(
+                            "The confidence is relatively low. Try uploading a clearer image."
+                        )
 
         except UnidentifiedImageError:
 
             st.error(
-                "Invalid image. Please upload a valid JPG or PNG image."
+                "Unsupported image format. Please upload a valid JPG or PNG image."
             )
 
         except Exception as e:
@@ -212,22 +233,19 @@ else:
         st.write(
             """
 This application uses **MobileNetV2 Transfer Learning**
-trained on the **DermNet Dataset** containing **23 different
-skin disease categories**.
+trained on the **DermNet Dataset** containing **23 skin disease categories**.
 
 ### Workflow
 
-1. Upload Image
-2. Image resized to **224×224**
-3. MobileNetV2 preprocessing
-4. Deep Learning prediction
-5. Disease name and confidence displayed
+1. Upload Skin Image
+2. Resize to **224 × 224**
+3. MobileNetV2 Preprocessing
+4. Deep Learning Prediction
+5. Display Top 3 Predictions
 
 ### Disclaimer
 
-This application is developed only for educational and research
-purposes. It should **NOT** be considered as a substitute for a
-professional medical diagnosis.
+This application is intended **only for educational and research purposes** and should **NOT** replace a professional medical diagnosis.
 """
         )
 
@@ -237,9 +255,9 @@ professional medical diagnosis.
         """
 <div style="text-align:center">
 
-### AI-Based Skin Disease Detection
+<h4>🩺 AI-Based Skin Disease Detection</h4>
 
-Built using TensorFlow • Keras • MobileNetV2 • Streamlit
+Built using <b>TensorFlow</b> • <b>Keras</b> • <b>MobileNetV2</b> • <b>Streamlit</b>
 
 </div>
 """,
@@ -247,8 +265,11 @@ Built using TensorFlow • Keras • MobileNetV2 • Streamlit
     )
 
 
-# -------------------------------
-# Run Application
-# -------------------------------
+# -------------------------------------------------
+# Run App
+# -------------------------------------------------
+
 if __name__ == "__main__":
-    main()
+    main()   
+
+    return results
