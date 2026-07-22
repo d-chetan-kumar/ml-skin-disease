@@ -99,6 +99,7 @@ def predict(model, img):
             "Disease": class_names[idx],
             "Confidence": float(predictions[idx])
         })
+      return results  
      # -------------------------------------------------
 # Main Application
 # -------------------------------------------------
@@ -272,4 +273,4 @@ Built using <b>TensorFlow</b> • <b>Keras</b> • <b>MobileNetV2</b> • <b>Str
 if __name__ == "__main__":
     main()   
 
-    return results
+    
