@@ -80,16 +80,20 @@ def preprocess_image(uploaded_file):
 # -------------------------------
 def predict(model, img):
 
-    predictions = model.predict(img, verbose=0)
+    predictions = model.predict(img, verbose=0)[0]
 
-    class_index = np.argmax(predictions[0])
+    # Get indices of top 3 predictions
+    top3_indices = np.argsort(predictions)[-3:][::-1]
 
-    confidence = float(predictions[0][class_index])
+    results = []
 
-    disease = class_names[class_index]
+    for idx in top3_indices:
+        results.append({
+            "disease": class_names[idx],
+            "confidence": float(predictions[idx])
+        })
 
-    return disease, confidence
-    # -------------------------------
+    return results
 # Main Application
 # -------------------------------
 def main():
@@ -154,44 +158,42 @@ def main():
 
                     with st.spinner("Analyzing image..."):
 
-                        disease, confidence = predict(
-                            model,
-                            img_batch
-                        )
+                       results = predict(model, img_batch)
 
-                    st.success("Prediction Completed Successfully!")
+st.success("Prediction Completed Successfully!")
 
-                    st.markdown("## 🩺 Predicted Disease")
+st.markdown("## 🏆 Top 3 Predicted Diseases")
 
-                    st.markdown(
-                        f"""
-### ✅ {disease}
-"""
-                    )
+table_data = []
 
-                    st.markdown("## 📊 Confidence")
+medals = ["🥇", "🥈", "🥉"]
 
-                    st.progress(float(confidence))
+for i, result in enumerate(results):
 
-                    st.metric(
-                        "Model Confidence",
-                        f"{confidence*100:.2f}%"
-                    )
+    table_data.append({
+        "Rank": medals[i],
+        "Disease": result["disease"],
+        "Confidence": f"{result['confidence']*100:.2f}%"
+    })
 
-                    if confidence >= 0.90:
-                        st.success(
-                            "The model is highly confident about this prediction."
-                        )
+st.table(table_data)
 
-                    elif confidence >= 0.70:
-                        st.info(
-                            "The model is reasonably confident."
-                        )
+top_confidence = results[0]["confidence"]
 
-                    else:
-                        st.warning(
-                            "The confidence is low. Consider using another image with better lighting and clarity."
-                        )
+if top_confidence >= 0.90:
+    st.success(
+        "The model is highly confident about the top prediction."
+    )
+
+elif top_confidence >= 0.70:
+    st.info(
+        "The model is reasonably confident about the top prediction."
+    )
+
+else:
+    st.warning(
+        "The confidence is relatively low. Consider using another image with better lighting and clarity."
+    )
 
         except UnidentifiedImageError:
 
