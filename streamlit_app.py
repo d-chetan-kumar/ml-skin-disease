@@ -1165,6 +1165,7 @@ div[data-testid="stFileUploader"] button * {
 color: #FFFFFF !important;
 stroke: #FFFFFF !important;
 fill: #FFFFFF !important;
+opacity: 1 !important;
 }
 
 div[data-testid="stFileUploader"] button svg,
@@ -1172,6 +1173,8 @@ div[data-testid="stFileUploader"] button svg * {
 color: #FFFFFF !important;
 stroke: #FFFFFF !important;
 fill: #FFFFFF !important;
+stroke-width: 2.4px !important;
+opacity: 1 !important;
 }
 
 div[data-testid="stFileUploader"] button:hover {
