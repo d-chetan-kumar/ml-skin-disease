@@ -1164,17 +1164,32 @@ display: inline-block !important;
 div[data-testid="stFileUploader"] button * {
 color: #FFFFFF !important;
 stroke: #FFFFFF !important;
-fill: #FFFFFF !important;
 opacity: 1 !important;
 }
 
-div[data-testid="stFileUploader"] button svg,
+div[data-testid="stFileUploader"] button svg {
+width: 23px !important;
+height: 23px !important;
+min-width: 23px !important;
+min-height: 23px !important;
+fill: none !important;
+stroke: #FFFFFF !important;
+stroke-width: 2.75 !important;
+stroke-linecap: round !important;
+stroke-linejoin: round !important;
+opacity: 1 !important;
+filter: none !important;
+}
+
 div[data-testid="stFileUploader"] button svg * {
 color: #FFFFFF !important;
 stroke: #FFFFFF !important;
-fill: #FFFFFF !important;
-stroke-width: 2.4px !important;
+fill: none !important;
+stroke-width: 2.75 !important;
+stroke-linecap: round !important;
+stroke-linejoin: round !important;
 opacity: 1 !important;
+filter: none !important;
 }
 
 div[data-testid="stFileUploader"] button:hover {
