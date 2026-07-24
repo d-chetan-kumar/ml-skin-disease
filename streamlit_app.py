@@ -18,6 +18,16 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 import streamlit as st
 from fpdf import FPDF
 
+import textwrap
+
+def clean_html(html_str):
+    """
+    Strips leading and trailing whitespaces from every line in the HTML string
+    to prevent Streamlit's markdown parser from interpreting nested indented
+    lines as Markdown code blocks.
+    """
+    return "\n".join(line.strip() for line in html_str.splitlines())
+
 # Import class_names from preprocessing.py safely
 try:
     from preprocessing import class_names
@@ -600,10 +610,10 @@ margin: 0 auto !important;
 }
 
 /* Center single-column layout container */
-.app-container {
-max-width: 960px;
-margin: 0 auto;
-padding: 0 16px 40px 16px;
+[data-testid="stAppViewBlockContainer"] {
+max-width: 960px !important;
+margin: 0 auto !important;
+padding: 0 16px 40px 16px !important;
 }
 
 /* Hide standard Streamlit header, footer, and menu */
@@ -1164,7 +1174,7 @@ transform: scale(0.97) !important;
 
 /* Inject detailed helper text below the button */
 div[data-testid="stFileUploader"] section::after {
-content: "Supported formats: JPG, JPEG, PNG  •  Maximum size: 200 MB\A Best results with clear, well-lit dermoscopic images" !important;
+content: "Supported formats: JPG, JPEG, PNG  •  Maximum size: 200 MB\\A Best results with clear, well-lit dermoscopic images" !important;
 white-space: pre-line !important;
 display: block !important;
 font-size: 12px !important;
@@ -1333,8 +1343,7 @@ def main():
     if "prediction_history" not in st.session_state:
         st.session_state.prediction_history = []
         
-    # Centered container start
-    st.markdown("<div class='app-container'>", unsafe_allow_html=True)
+
     
     # 1. Top Navbar
     navbar_html = """<div class="top-nav-bar">
@@ -1452,7 +1461,7 @@ Please upload or drag and drop a clinical skin image file on the upload area abo
                     </div>
                 </div>
                 """
-                st.markdown(validation_failed_html, unsafe_allow_html=True)
+                st.markdown(clean_html(validation_failed_html), unsafe_allow_html=True)
                 
                 # Render disclaimer and footer to cleanly finish layout before early exit
                 disclaimer_html = """<div class="warning-card">
@@ -1472,7 +1481,6 @@ Please upload or drag and drop a clinical skin image file on the upload area abo
 <p style="font-size: 11px; color: #94A3B8; margin:6px 0 0 0;">© 2026 DermaVision. All Rights Reserved.</p>
 </div>"""
                 st.markdown(footer_html, unsafe_allow_html=True)
-                st.markdown("</div>", unsafe_allow_html=True)
                 return
             
             # Evaluate Image Quality before prediction
@@ -1503,52 +1511,29 @@ Please upload or drag and drop a clinical skin image file on the upload area abo
             # Render premium preview card with all details and success indicator
             st.markdown("<div class='section-title'>Dermoscopic Image Details</div>", unsafe_allow_html=True)
             
-            preview_card_html = f"""
-            <div class="shadcn-card" style="display: flex; flex-direction: column; align-items: center; padding: 32px 24px; max-width: 680px; margin: 0 auto 30px auto; border-radius: 24px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04) !important;">
-                <!-- Upload Success Indicator Banner -->
-                <div style="display: flex; align-items: center; gap: 8px; background-color: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; border-radius: 12px; padding: 10px 16px; margin-bottom: 24px; width: 100%; justify-content: center; font-size: 14px; font-weight: 600; font-family: 'Geist Sans', sans-serif;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                    <span>Dermoscopic Image Uploaded Successfully</span>
-                </div>
-                
-                <!-- Image Wrapper -->
-                <div style="display: flex; justify-content: center; align-items: center; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 16px; margin-bottom: 24px; width: 100%; max-width: 320px; overflow: hidden; box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.02);">
-            """
-            st.markdown(preview_card_html, unsafe_allow_html=True)
-            st.image(original_img, width=280, use_container_width=False)
+            # Render premium preview card using native Streamlit components
+            st.markdown("<div class='section-title'>Dermoscopic Image Details</div>", unsafe_allow_html=True)
             
-            metadata_html = f"""
-                </div>
+            with st.container(border=True):
+                # 1. Upload Success Indicator Banner
+                st.success("Dermoscopic Image Uploaded Successfully")
                 
-                <!-- Metadata details list -->
-                <div style="width: 100%; border-top: 1px solid #F1F5F9; padding-top: 20px;">
-                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px 18px;">
-                            <span style="font-size: 13px; color: #64748B; font-weight: 600; font-family: 'Geist Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.05em;">File Name</span>
-                            <span style="font-size: 14px; color: #0F172A; font-weight: 700; font-family: 'Geist Sans', sans-serif; word-break: break-all; text-align: right; max-width: 250px;">{filename_str}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="metadata-grid" style="width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-                        <div class="metadata-item">
-                            <div class="metadata-label">Resolution</div>
-                            <div class="metadata-value">{res_str}</div>
-                        </div>
-                        <div class="metadata-item">
-                            <div class="metadata-label">File Size</div>
-                            <div class="metadata-value">{size_str}</div>
-                        </div>
-                        <div class="metadata-item">
-                            <div class="metadata-label">Format</div>
-                            <div class="metadata-value">{fmt_str}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            """
-            st.markdown(metadata_html, unsafe_allow_html=True)
+                # 2. Centered Image Preview
+                col1, col2, col3 = st.columns([1, 2, 1])
+                with col2:
+                    st.image(original_img, use_container_width=True)
+                
+                # 3. File Name and Details
+                st.markdown(f"**File Name:** `{filename_str}`")
+                
+                # 4. Metadata Details Grid (Resolution, Size, Format)
+                met1, met2, met3 = st.columns(3)
+                with met1:
+                    st.metric(label="Resolution", value=res_str)
+                with met2:
+                    st.metric(label="File Size", value=size_str)
+                with met3:
+                    st.metric(label="Format", value=fmt_str)
             
             # Image Quality Analysis Section (Evaluated BEFORE prediction)
             st.markdown("<div class='section-title'>Image Quality Assessment</div>", unsafe_allow_html=True)
@@ -1906,8 +1891,7 @@ Please upload or drag and drop a clinical skin image file on the upload area abo
 </div>"""
     st.markdown(footer_html, unsafe_allow_html=True)
     
-    # Centered container end
-    st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 # The file should execute using `streamlit run streamlit_app.py`
