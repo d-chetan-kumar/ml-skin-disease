@@ -1164,6 +1164,7 @@ display: inline-block !important;
 div[data-testid="stFileUploader"] button * {
 color: #FFFFFF !important;
 stroke: #FFFFFF !important;
+fill: #FFFFFF !important;
 }
 
 div[data-testid="stFileUploader"] button:hover {
