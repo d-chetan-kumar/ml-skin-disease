@@ -1167,6 +1167,13 @@ stroke: #FFFFFF !important;
 fill: #FFFFFF !important;
 }
 
+div[data-testid="stFileUploader"] button svg,
+div[data-testid="stFileUploader"] button svg * {
+color: #FFFFFF !important;
+stroke: #FFFFFF !important;
+fill: #FFFFFF !important;
+}
+
 div[data-testid="stFileUploader"] button:hover {
 background-color: #1D4ED8 !important;
 border-color: #1E40AF !important;
