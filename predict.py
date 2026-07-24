@@ -148,6 +148,21 @@ def main():
         print(f"\nError processing image: {e}")
         return
         
+    # Run the validation layer before prediction
+    try:
+        from validator import is_valid_dermatology_image
+        if not is_valid_dermatology_image(original_img):
+            print("\n" + "="*50)
+            print("Image Validation Failed")
+            print("="*50)
+            print("This image does not appear to be a valid dermatological image.")
+            print("DermaVision is designed exclusively for AI-assisted skin disease analysis.")
+            print("Please upload a clear image of human skin or a skin lesion for accurate classification.")
+            print("="*50 + "\n")
+            return
+    except Exception as e:
+        print(f"Warning during image validation: {e}")
+        
     # Attempt prediction and display
     try:
         disease_name, confidence = predict_image(model, img_batch, class_names)

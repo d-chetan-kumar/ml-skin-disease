@@ -1429,6 +1429,52 @@ Please upload or drag and drop a clinical skin image file on the upload area abo
             # Preprocess the file
             img_batch, original_img = preprocess_image(uploaded_file)
             
+            # Validate if the image is a valid dermatological image
+            from validator import is_valid_dermatology_image
+            if not is_valid_dermatology_image(original_img):
+                # Render premium validation failed card
+                validation_failed_html = """
+                <div class="warning-card" style="border-left: 4px solid #EF4444; background-color: #FEF2F2; padding: 24px; border-radius: 16px; margin: 20px auto 30px auto; max-width: 680px; text-align: left;">
+                    <div style="display: flex; align-items: flex-start; gap: 16px;">
+                        <div style="color: #EF4444; margin-top: 2px; flex-shrink: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 18px; font-weight: 700; color: #991B1B; margin: 0 0 8px 0; font-family: 'Geist Sans', sans-serif; text-align: left;">Image Validation Failed</h3>
+                            <p style="font-size: 14px; color: #7F1D1D; line-height: 1.6; margin: 0; font-family: 'Geist Sans', sans-serif; font-weight: 500; text-align: left;">
+                                This image does not appear to be a valid dermatological image.<br><br>
+                                DermaVision is designed exclusively for AI-assisted skin disease analysis.<br><br>
+                                Please upload a clear image of human skin or a skin lesion for accurate classification.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                """
+                st.markdown(validation_failed_html, unsafe_allow_html=True)
+                
+                # Render disclaimer and footer to cleanly finish layout before early exit
+                disclaimer_html = """<div class="warning-card">
+<div class="warning-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+</div>
+<p class="warning-text">
+<strong>Disclaimer:</strong> This application is intended for educational and research screening purposes only. It is not a clinical replacement for professional dermatological examination, diagnosis, or biopsy.
+</p>
+</div>"""
+                st.markdown(disclaimer_html, unsafe_allow_html=True)
+                
+                footer_html = """<div class="footer-text">
+<p style="font-weight: 700; color: #0F172A; margin:0 0 4px 0;">DermaVision</p>
+<p style="font-size: 12px; color: #64748B; margin:0 0 8px 0;">Intelligent Skin Image Classification</p>
+<p style="font-size: 11px; color: #94A3B8; margin:0;">Built with TensorFlow • MobileNetV2 • Streamlit • DermNet</p>
+<p style="font-size: 11px; color: #94A3B8; margin:6px 0 0 0;">© 2026 DermaVision. All Rights Reserved.</p>
+</div>"""
+                st.markdown(footer_html, unsafe_allow_html=True)
+                st.markdown("</div>", unsafe_allow_html=True)
+                return
+            
             # Evaluate Image Quality before prediction
             quality_analysis = evaluate_image_quality(original_img)
             
