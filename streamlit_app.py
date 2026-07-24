@@ -1068,7 +1068,7 @@ div[data-testid="stFileUploader"] label {
 display: none !important;
 }
 div[data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzone"] {
-background-color:transparent !important;
+background-color: transparent !important;
 border: none !important;
 padding: 0 !important;
 }
@@ -1088,7 +1088,10 @@ div[data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzone"] butt
 background-color: #F8FAFC !important;
 border-color: #CBD5E1 !important;
 }
-
+div[data-testid="stFileUploader"] span, div[data-testid="stFileUploader"] div, div[data-testid="stFileUploader"] p {
+color: #64748B !important;
+font-family: 'Geist Sans', sans-serif !important;
+}
 
 /* Style streamlit expander to look like elegant accordions */
 .stExpander {
