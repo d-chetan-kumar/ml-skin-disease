@@ -1046,51 +1046,144 @@ font-weight: 700;
 /* Native File Uploader Overrides - Styled Premium */
 div[data-testid="stFileUploader"] {
 background: #FFFFFF !important;
-border: 1.5px dashed #CBD5E1 !important;
-border-radius: 20px !important;
-padding: 40px 30px !important;
-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.02), 0 1px 3px 0 rgba(0, 0, 0, 0.01) !important;
-margin-bottom: 30px;
+border: 2px dashed #CBD5E1 !important;
+border-radius: 24px !important;
+padding: 56px 40px !important;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.01) !important;
+margin: 0 auto 30px auto !important;
+max-width: 680px !important;
+font-family: 'Geist Sans', sans-serif !important;
+position: relative !important;
 }
-div[data-testid="stFileUploader"]:hover, div[data-testid="stFileUploader"]:focus-within {
+
+div[data-testid="stFileUploader"]:hover {
 border-color: #2563EB !important;
 background: #F8FAFC !important;
-transform: scale(1.005);
-box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.05), 0 4px 6px -2px rgba(37, 99, 235, 0.03) !important;
+box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.08), 0 1px 3px 0 rgba(37, 99, 235, 0.02) !important;
+transform: translateY(-2px);
 }
-div[data-testid="stFileUploader"] section {
-background-color    : transparent !important;
-border: none !important;
-padding: 0 !important;
+
+/* 1. Medical Icon */
+div[data-testid="stFileUploader"]::before {
+content: "" !important;
+display: block !important;
+width: 56px !important;
+height: 56px !important;
+margin: 0 auto 20px auto !important;
+background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%232563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>') !important;
+background-size: contain !important;
+background-repeat: no-repeat !important;
+transition: all 0.3s ease !important;
 }
-div[data-testid="stFileUploader"] label {
+
+/* 2. Title */
+div[data-testid="stFileUploader"] section::before {
+content: "Upload Dermoscopic Image" !important;
+display: block !important;
+font-size: 22px !important;
+font-weight: 700 !important;
+color: #0F172A !important;
+margin-bottom: 6px !important;
+font-family: 'Geist Sans', sans-serif !important;
+text-align: center !important;
+transition: all 0.3s ease !important;
+}
+
+/* 3. Subtitle */
+div[data-testid="stFileUploader"] section > span::before {
+content: "Upload a high-quality dermoscopic image (JPG, JPEG, PNG)" !important;
+display: block !important;
+font-size: 14px !important;
+color: #64748B !important;
+margin-bottom: 24px !important;
+font-family: 'Geist Sans', sans-serif !important;
+text-align: center !important;
+font-weight: 400 !important;
+transition: all 0.3s ease !important;
+}
+
+/* Hide Icon/Title/Subtitle when a file has been uploaded */
+div[data-testid="stFileUploader"]:has([data-testid="stUploadedFileData"])::before,
+div[data-testid="stFileUploader"]:has([data-testid="stUploadedFileData"]) section::before,
+div[data-testid="stFileUploader"]:has([data-testid="stUploadedFileData"]) section > span::before,
+div[data-testid="stFileUploader"]:has(button[aria-label*="Remove"])::before,
+div[data-testid="stFileUploader"]:has(button[aria-label*="Remove"]) section::before,
+div[data-testid="stFileUploader"]:has(button[aria-label*="Remove"]) section > span::before {
 display: none !important;
 }
-div[data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzone"] {
+
+div[data-testid="stFileUploader"] section {
 background-color: transparent !important;
 border: none !important;
 padding: 0 !important;
+display: flex !important;
+flex-direction: column !important;
+align-items: center !important;
+justify-content: center !important;
+gap: 12px !important;
+text-align: center !important;
 }
-div[data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzone"] button {
-background-color: #FFFFFF !important;
-color: #0F172A !important;
-border: 1px solid #E2E8F0 !important;
+
+div[data-testid="stFileUploader"] label {
+display: none !important;
+}
+
+/* Hide default drag-and-drop text and limits text */
+div[data-testid="stFileUploader"] section > div {
+display: none !important;
+}
+div[data-testid="stFileUploader"] section > p {
+display: none !important;
+}
+
+/* Style Browse Files Button */
+div[data-testid="stFileUploader"] button {
+background-color: #2563EB !important;
+color: #FFFFFF !important;
+border: 1px solid #1D4ED8 !important;
 border-radius: 12px !important;
-padding: 10px 20px !important;
+padding: 12px 24px !important;
 font-size: 14px !important;
-transition: all 0.15s !important;
-display: inline-block !important;
 font-weight: 600 !important;
-box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.12), 0 2px 4px -1px rgba(37, 99, 235, 0.08) !important;
+display: inline-block !important;
 }
-div[data-testid="stFileUploader"] div[data-testid="stFileUploaderDropzone"] button:hover {
-background-color: #F8FAFC !important;
-border-color: #CBD5E1 !important;
+
+div[data-testid="stFileUploader"] button:hover {
+background-color: #1D4ED8 !important;
+border-color: #1E40AF !important;
+transform: scale(1.03) !important;
+box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.2) !important;
 }
-div[data-testid="stFileUploader"] span, div[data-testid="stFileUploader"] div, div[data-testid="stFileUploader"] p {
+
+div[data-testid="stFileUploader"] button:active {
+transform: scale(0.97) !important;
+}
+
+/* Inject detailed helper text below the button */
+div[data-testid="stFileUploader"] section::after {
+content: "Supported formats: JPG, JPEG, PNG  •  Maximum size: 200 MB\A Best results with clear, well-lit dermoscopic images" !important;
+white-space: pre-line !important;
+display: block !important;
+font-size: 12px !important;
 color: #64748B !important;
+margin-top: 20px !important;
+line-height: 1.6 !important;
 font-family: 'Geist Sans', sans-serif !important;
+text-align: center !important;
+font-weight: 500 !important;
+}
+
+/* Hide helper text when a file is uploaded */
+div[data-testid="stFileUploader"]:has([data-testid="stUploadedFileData"]) section::after,
+div[data-testid="stFileUploader"]:has(button[aria-label*="Remove"]) section::after {
+display: none !important;
+}
+
+div[data-testid="stFileUploader"] span {
+color: #64748B !important;
 }
 
 /* Style streamlit expander to look like elegant accordions */
@@ -1284,7 +1377,6 @@ Upload a clinical skin lesion image and receive an AI-assisted disease classific
     st.markdown(hero_html, unsafe_allow_html=True)
     
     # 3. File Uploader Container
-    st.markdown('<div class="section-title" style="margin-top:0px !important;">Upload Image</div>', unsafe_allow_html=True)
     uploaded_file = st.file_uploader("Select dermoscopic skin image file", type=["jpg", "jpeg", "png"], label_visibility="collapsed")
     
     # Enable test mode via query parameters to bypass OS file uploader block in browser testing
@@ -1304,20 +1396,20 @@ Upload a clinical skin lesion image and receive an AI-assisted disease classific
             
     if uploaded_file is None:
         # Empty State
-        empty_state_html = """<div class="shadcn-card" style="text-align: center; padding: 48px 32px;">
+        empty_state_html = """<div class="shadcn-card" style="text-align: center; padding: 40px 32px; max-width: 680px; margin: -10px auto 30px auto; border-radius: 24px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02) !important;">
 <div style="color: #2563EB; margin-bottom: 20px; display: flex; justify-content: center;">
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
 </div>
-<h3 style="font-size: 22px; font-weight: 700; color: #0F172A; margin-bottom: 10px; letter-spacing: -0.02em;">Awaiting Visual Input</h3>
-<p style="font-size: 15px; color: #64748B; max-width: 440px; margin: 0 auto 24px auto; line-height: 1.6;">
-Please select a dermoscopic skin image file on the upload area above to initialize the AI diagnostic scanning workflow.
+<h3 style="font-size: 22px; font-weight: 700; color: #0F172A; margin-bottom: 10px; letter-spacing: -0.02em; font-family: 'Geist Sans', sans-serif;">Awaiting Visual Input</h3>
+<p style="font-size: 15px; color: #64748B; max-width: 460px; margin: 0 auto 24px auto; line-height: 1.6; font-family: 'Geist Sans', sans-serif;">
+Please upload or drag and drop a clinical skin image file on the upload area above to initialize the AI diagnostic scanning workflow.
 </p>
-<div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; max-width: 500px; margin: 0 auto; text-align: left;">
-<h4 style="font-size: 13px; font-weight: 700; color: #0F172A; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Supported Formats & Rules</h4>
-<div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #64748B;">
+<div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; max-width: 500px; margin: 0 auto; text-align: left;">
+<h4 style="font-size: 13px; font-weight: 700; color: #0F172A; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Geist Sans', sans-serif;">Supported Formats & Rules</h4>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #64748B; font-family: 'Geist Sans', sans-serif;">
 <div style="display: flex; align-items: flex-start; gap: 8px;">
 <span style="color: #2563EB; font-weight: bold;">•</span>
-<span>Only JPG, JPEG, and PNG formats are supported (max size 10MB).</span>
+<span>Only JPG, JPEG, and PNG formats are supported (max size 200MB).</span>
 </div>
 <div style="display: flex; align-items: flex-start; gap: 8px;">
 <span style="color: #2563EB; font-weight: bold;">•</span>
@@ -1340,14 +1432,6 @@ Please select a dermoscopic skin image file on the upload area above to initiali
             # Evaluate Image Quality before prediction
             quality_analysis = evaluate_image_quality(original_img)
             
-            # Render preview card
-            st.markdown("<div class='section-title'>Image Preview</div>", unsafe_allow_html=True)
-            
-            preview_card_html = f"""<div class="shadcn-card" style="display: flex; flex-direction: column; align-items: center; padding: 24px;">
-<div style="display: flex; justify-content: center; align-items: center; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; margin-bottom: 16px; width: 100%; max-width: 400px;">"""
-            st.markdown(preview_card_html, unsafe_allow_html=True)
-            st.image(original_img, width=280, use_container_width=False)
-            
             # Retrieve metadata details
             res_str = f"{original_img.width} x {original_img.height}"
             size_bytes = uploaded_file.size
@@ -1362,29 +1446,62 @@ Please select a dermoscopic skin image file on the upload area above to initiali
                 if len(parts) > 1:
                     fmt_str = parts[-1].upper()
                     
+            filename_str = uploaded_file.name if uploaded_file.name else "Unknown Image"
+            
             metadata_records = {
                 "resolution": res_str,
                 "size_str": size_str,
                 "format": fmt_str
             }
             
-            # Display metadata grid under preview image
-            metadata_html = f"""</div>
-<div class="metadata-grid" style="width: 100%;">
-<div class="metadata-item">
-<div class="metadata-label">Resolution</div>
-<div class="metadata-value">{res_str}</div>
-</div>
-<div class="metadata-item">
-<div class="metadata-label">File Size</div>
-<div class="metadata-value">{size_str}</div>
-</div>
-<div class="metadata-item">
-<div class="metadata-label">Format</div>
-<div class="metadata-value">{fmt_str}</div>
-</div>
-</div>
-</div>"""
+            # Render premium preview card with all details and success indicator
+            st.markdown("<div class='section-title'>Dermoscopic Image Details</div>", unsafe_allow_html=True)
+            
+            preview_card_html = f"""
+            <div class="shadcn-card" style="display: flex; flex-direction: column; align-items: center; padding: 32px 24px; max-width: 680px; margin: 0 auto 30px auto; border-radius: 24px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04) !important;">
+                <!-- Upload Success Indicator Banner -->
+                <div style="display: flex; align-items: center; gap: 8px; background-color: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; border-radius: 12px; padding: 10px 16px; margin-bottom: 24px; width: 100%; justify-content: center; font-size: 14px; font-weight: 600; font-family: 'Geist Sans', sans-serif;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Dermoscopic Image Uploaded Successfully</span>
+                </div>
+                
+                <!-- Image Wrapper -->
+                <div style="display: flex; justify-content: center; align-items: center; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 16px; margin-bottom: 24px; width: 100%; max-width: 320px; overflow: hidden; box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.02);">
+            """
+            st.markdown(preview_card_html, unsafe_allow_html=True)
+            st.image(original_img, width=280, use_container_width=False)
+            
+            metadata_html = f"""
+                </div>
+                
+                <!-- Metadata details list -->
+                <div style="width: 100%; border-top: 1px solid #F1F5F9; padding-top: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px 18px;">
+                            <span style="font-size: 13px; color: #64748B; font-weight: 600; font-family: 'Geist Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.05em;">File Name</span>
+                            <span style="font-size: 14px; color: #0F172A; font-weight: 700; font-family: 'Geist Sans', sans-serif; word-break: break-all; text-align: right; max-width: 250px;">{filename_str}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metadata-grid" style="width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                        <div class="metadata-item">
+                            <div class="metadata-label">Resolution</div>
+                            <div class="metadata-value">{res_str}</div>
+                        </div>
+                        <div class="metadata-item">
+                            <div class="metadata-label">File Size</div>
+                            <div class="metadata-value">{size_str}</div>
+                        </div>
+                        <div class="metadata-item">
+                            <div class="metadata-label">Format</div>
+                            <div class="metadata-value">{fmt_str}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            """
             st.markdown(metadata_html, unsafe_allow_html=True)
             
             # Image Quality Analysis Section (Evaluated BEFORE prediction)
