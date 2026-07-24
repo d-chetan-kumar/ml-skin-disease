@@ -1161,6 +1161,11 @@ box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.12), 0 2px 4px -1px rgba(37, 99, 
 display: inline-block !important;
 }
 
+div[data-testid="stFileUploader"] button * {
+color: #FFFFFF !important;
+stroke: #FFFFFF !important;
+}
+
 div[data-testid="stFileUploader"] button:hover {
 background-color: #1D4ED8 !important;
 border-color: #1E40AF !important;
@@ -1243,15 +1248,19 @@ transform: scale(0.98) !important;
 /* Download Button styling overrides */
 div[data-testid="stDownloadButton"] > button {
 background: #FFFFFF !important;
-color: #0F172A !important;
-border: 1px solid #E2E8F0 !important;
+color: #000000 !important;
+border: 1px solid #CBD5E1 !important;
 border-radius: 12px !important;
 padding: 14px 28px !important;
-font-weight: 700 !important;
+font-weight: 800 !important;
 font-size: 16px !important;
 width: 100% !important;
 box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
 transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+div[data-testid="stDownloadButton"] > button * {
+color: #000000 !important;
+font-weight: 800 !important;
 }
 div[data-testid="stDownloadButton"] > button:hover {
 background: #F8FAFC !important;
@@ -1511,12 +1520,17 @@ Please upload or drag and drop a clinical skin image file on the upload area abo
             # Render premium preview card with all details and success indicator
             st.markdown("<div class='section-title'>Dermoscopic Image Details</div>", unsafe_allow_html=True)
             
-            # Render premium preview card using native Streamlit components
-            st.markdown("<div class='section-title'>Dermoscopic Image Details</div>", unsafe_allow_html=True)
-            
             with st.container(border=True):
-                # 1. Upload Success Indicator Banner
-                st.success("Dermoscopic Image Uploaded Successfully")
+                # 1. Upload Success Indicator Banner (Compact premium SaaS style)
+                success_banner_html = """
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; background-color: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; border-radius: 14px; padding: 12px 18px; min-height: 48px; box-sizing: border-box; font-size: 18px; font-weight: 600; max-width: 720px; margin: 8px auto 16px auto; width: 100%;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Dermoscopic Image Uploaded Successfully</span>
+                </div>
+                """
+                st.markdown(success_banner_html, unsafe_allow_html=True)
                 
                 # 2. Centered Image Preview
                 col1, col2, col3 = st.columns([1, 2, 1])
