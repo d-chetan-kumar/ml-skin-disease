@@ -5,4 +5,4 @@ pandas
 matplotlib
 scikit-learn
 pillow
-fpdf2
+fpdf2==2.7.9
