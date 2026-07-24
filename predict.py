@@ -83,7 +83,7 @@ def predict_image(model, img_batch, classes):
         # Fallback if class_names is empty or mismatched
         disease_name = f"Class Index {class_idx}"
         
-    confidence = float(np.max(preds)) * 100
+    confidence = preds[0][class_idx] * 100.0
     
     return disease_name, confidence
 
@@ -115,7 +115,6 @@ def display_prediction(img, disease_name, confidence):
     # Render
     plt.tight_layout()
     plt.show()
-    plt.close()
 
 
 def main():
